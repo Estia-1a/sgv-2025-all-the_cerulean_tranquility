@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Profil - ESTIA Tuning</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Impact', 'Arial Black', sans-serif;
+            background: #000;
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Fond animé style Matrix/Années 2000 */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 255, 0, 0.03) 2px, rgba(0, 255, 0, 0.03) 4px),
+                repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(255, 0, 255, 0.03) 2px, rgba(255, 0, 255, 0.03) 4px),
+                radial-gradient(ellipse at 30% 40%, rgba(255, 0, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 60%, rgba(0, 255, 255, 0.1) 0%, transparent 50%),
+                linear-gradient(180deg, #000 0%, #0a0015 50%, #000 100%);
+            z-index: -1;
+            animation: bgScroll 20s linear infinite;
+        }
+
+        @keyframes bgScroll {
+            0% { background-position: 0 0; }
+            100% { background-position: 100px 100px; }
+        }
+
+        /* Néons clignotants */
+        .neon-border-top {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #ff00ff, #00ffff, #ffff00, #ff00ff);
+            animation: neonSlide 3s linear infinite;
+            z-index: 9999;
+            box-shadow: 0 0 20px #ff00ff, 0 0 40px #00ffff;
+        }
+
+        .neon-border-bottom {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #00ffff, #ffff00, #ff00ff, #00ffff);
+            animation: neonSlide 3s linear infinite reverse;
+            z-index: 9999;
+            box-shadow: 0 0 20px #00ffff, 0 0 40px #ff00ff;
+        }
+
+        @keyframes neonSlide {
+            0% { background-position: 0 0; }
+            100% { background-position: 200px 0; }
+        }
+
+        /* Étoiles/Sparkles style années 2000 */
+        .sparkle {
+            position: fixed;
+            pointer-events: none;
+            animation: sparkleFloat 3s ease-in-out infinite;
+            font-size: 2rem;
+            z-index: 1;
+        }
+
+        .sparkle:nth-child(1) { top: 10%; left: 5%; animation-delay: 0s; }
+        .sparkle:nth-child(2) { top: 20%; right: 10%; animation-delay: 0.5s; }
+        .sparkle:nth-child(3) { top: 60%; left: 8%; animation-delay: 1s; }
+        .sparkle:nth-child(4) { top: 70%; right: 15%; animation-delay: 1.5s; }
+        .sparkle:nth-child(5) { top: 40%; left: 15%; animation-delay: 2s; }
+        .sparkle:nth-child(6) { top: 50%; right: 5%; animation-delay: 2.5s; }
+
+        @keyframes sparkleFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.6; }
+            50% { transform: translateY(-20px) rotate(180deg); opacity: 1; }
+        }
+
+        header {
+            background: linear-gradient(135deg, rgba(255, 0, 255, 0.3), rgba(0, 255, 255, 0.3));
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-bottom: 3px solid #ff00ff;
+            box-shadow: 0 0 30px rgba(255, 0, 255, 0.5), 0 5px 0 #00ffff;
+            margin-top: 5px;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .back-btn {
+            background: linear-gradient(135deg, #ff00ff, #ff00aa);
+            color: #fff;
+            padding: 0.8rem 2rem;
+            border: 3px solid #00ffff;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.6), inset 0 0 10px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s;
+            text-shadow: 0 0 10px #000;
+        }
+
+        .back-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 40px rgba(0, 255, 255, 0.8);
+            background: linear-gradient(135deg, #00ffff, #00aaff);
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #ff00ff, #00ffff, #ffff00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            animation: titleGlow 2s ease-in-out infinite alternate;
+            filter: drop-shadow(0 0 20px rgba(255, 0, 255, 0.8));
+        }
+
+        @keyframes titleGlow {
+            from { filter: drop-shadow(0 0 20px rgba(255, 0, 255, 0.8)); }
+            to { filter: drop-shadow(0 0 40px rgba(0, 255, 255, 1)); }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        /* Carte profil principale */
+        .profile-card {
+            background: linear-gradient(135deg, rgba(255, 0, 255, 0.2), rgba(0, 255, 255, 0.2));
+            border: 3px solid #ff00ff;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 
+                0 0 30px rgba(255, 0, 255, 0.5),
+                0 0 50px rgba(0, 255, 255, 0.3),
+                inset 0 0 30px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .profile-card::before {
+            content: '⚡';
+            position: absolute;
+            font-size: 15rem;
+            opacity: 0.05;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: iconRotate 10s linear infinite;
+        }
+
+        @keyframes iconRotate {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        .avatar-container {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 1.5rem;
+            border-radius: 50%;
+            border: 5px solid #ff00ff;
+            box-shadow: 
+                0 0 30px rgba(255, 0, 255, 0.8),
+                0 0 50px rgba(0, 255, 255, 0.6),
+                inset 0 0 30px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(135deg, #ff00ff, #00ffff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            animation: avatarPulse 2s ease-in-out infinite;
+            position: relative;
+        }
+
+        @keyframes avatarPulse {
+            0%, 100% { 
+                box-shadow: 0 0 30px rgba(255, 0, 255, 0.8), 0 0 50px rgba(0, 255, 255, 0.6); 
+                transform: scale(1);
+            }
+            50% { 
+                box-shadow: 0 0 50px rgba(255, 0, 255, 1), 0 0 80px rgba(0, 255, 255, 0.8); 
+                transform: scale(1.05);
+            }
+        }
+
+        .username {
+            font-size: 2rem;
+            color: #00ffff;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 
+                0 0 10px rgba(0, 255, 255, 0.8),
+                2px 2px 5px #000,
+                0 0 20px rgba(255, 0, 255, 0.5);
+            margin-bottom: 0.5rem;
+            animation: textBlink 1.5s ease-in-out infinite;
+        }
+
+        @keyframes textBlink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .user-stats {
+            margin: 2rem 0;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .stat-item {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 1rem;
+            border-radius: 10px;
+            border: 2px solid #00ffff;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #ff00ff;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            color: #00ffff;
+            font-weight: 900;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
+        }
+
+        .edit-btn {
+            background: linear-gradient(135deg, #ffff00, #ff00ff);
+            color: #000;
+            padding: 1rem 2rem;
+            border: 3px solid #00ffff;
+            border-radius: 25px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(255, 255, 0, 0.6);
+            transition: all 0.3s;
+            margin-top: 1rem;
+            width: 100%;
+        }
+
+        .edit-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 40px rgba(255, 0, 255, 0.8);
+            background: linear-gradient(135deg, #ff00ff, #ffff00);
+        }
+
+        /* Section droite */
+        .profile-content {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .section-box {
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.1), rgba(255, 0, 255, 0.1));
+            border: 3px solid #00ffff;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 
+                0 0 30px rgba(0, 255, 255, 0.3),
+                inset 0 0 30px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+
+        .section-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #ff00ff, #00ffff, #ffff00, #ff00ff);
+            animation: borderSlide 3s linear infinite;
+        }
+
+        @keyframes borderSlide {
+            0% { background-position: 0 0; }
+            100% { background-position: 200px 0; }
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: #ffff00;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 1.5rem;
+            text-shadow: 
+                0 0 10px rgba(255, 255, 0, 0.8),
+                2px 2px 5px #000,
+                0 0 20px rgba(255, 0, 255, 0.5);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .car-card {
+            background: rgba(0, 0, 0, 0.6);
+            border: 3px solid #ff00ff;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.4);
+            transition: all 0.3s;
+        }
+
+        .car-card:hover {
+            transform: translateX(10px);
+            box-shadow: 0 0 40px rgba(0, 255, 255, 0.6);
+            border-color: #00ffff;
+        }
+
+        .car-name {
+            font-size: 1.5rem;
+            color: #ff00ff;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 10px rgba(255, 0, 255, 0.8);
+        }
+
+        .car-specs {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .spec-badge {
+            background: linear-gradient(135deg, #ff00ff, #ff00aa);
+            color: #fff;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 900;
+            border: 2px solid #00ffff;
+            box-shadow: 0 0 10px rgba(255, 0, 255, 0.5);
+            text-shadow: 1px 1px 2px #000;
+        }
+
+        .badges-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+
+        .badge {
+            background: rgba(0, 0, 0, 0.6);
+            border: 3px solid #ffff00;
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(255, 255, 0, 0.4);
+            transition: all 0.3s;
+        }
+
+        .badge:hover {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 0 40px rgba(255, 255, 0, 0.8);
+        }
+
+        .badge-icon {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            filter: drop-shadow(0 0 10px rgba(255, 255, 0, 0.8));
+        }
+
+        .badge-name {
+            color: #ffff00;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 0 0 10px rgba(255, 255, 0, 0.8);
+        }
+
+        @media (max-width: 1024px) {
+            .profile-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 1.8rem;
+            }
+
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Néons -->
+    <div class="neon-border-top"></div>
+    <div class="neon-border-bottom"></div>
+
+    <!-- Sparkles années 2000 -->
+    <div class="sparkle">✨</div>
+    <div class="sparkle">⭐</div>
+    <div class="sparkle">✨</div>
+    <div class="sparkle">⭐</div>
+    <div class="sparkle">✨</div>
+    <div class="sparkle">⭐</div>
+
+    <header>
+        <div class="header-content">
+            <a href="index.html" class="back-btn">⬅️ Retour</a>
+            <h1 class="page-title">🏎️ MON PROFIL 🏎️</h1>
+            <div style="width: 150px;"></div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="profile-grid">
+            <!-- Carte profil gauche -->
+            <div class="profile-card">
+                <div class="avatar-container">
+                    🏁
+                </div>
+                
+                <h2 class="username">KEVIN_TURBO</h2>
+                <p style="color: #ff00ff; font-size: 0.9rem; letter-spacing: 2px;">🔥 PILOTE DE FEU 🔥</p>
+
+                <div class="user-stats">
+                    <div class="stat-item">
+                        <div class="stat-label">Trajets effectués</div>
+                        <div class="stat-value">47</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">Note moyenne</div>
+                        <div class="stat-value">4.8 ⭐</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">Membre depuis</div>
+                        <div class="stat-value">Sept 2024</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">CV économisés</div>
+                        <div class="stat-value">280 €</div>
+                    </div>
+                </div>
+
+                <button class="edit-btn">✏️ Modifier le profil</button>
+            </div>
+
+            <!-- Contenu droite -->
+            <div class="profile-content">
+                <!-- Ma caisse -->
+                <div class="section-box">
+                    <h3 class="section-title">🏎️ MA CAISSE DE OUF</h3>
+                    
+                    <div class="car-card">
+                        <div class="car-name">🔥 Honda Civic Type R 2006 🔥</div>
+                        <p style="color: #00ffff; margin: 0.5rem 0;">Le monstre qui déchire tout !</p>
+                        
+                        <div class="car-specs">
+                            <span class="spec-badge">⚡ 350 CV</span>
+                            <span class="spec-badge">🎨 Kit carrosserie</span>
+                            <span class="spec-badge">💨 Aileron XXL</span>
+                            <span class="spec-badge">🔊 Sono 2000W</span>
+                            <span class="spec-badge">💡 Néons bleus</span>
+                            <span class="spec-badge">🔧 Moteur modifié</span>
+                        </div>
+                    </div>
+
+                    <button class="edit-btn" style="background: linear-gradient(135deg, #00ffff, #0099ff);">➕ Ajouter une caisse</button>
+                </div>
+
+                <!-- Modifs -->
+                <div class="section-box">
+                    <h3 class="section-title">🔧 MES MODIFS LÉGENDAIRES</h3>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 1rem;">
+                        <div style="background: rgba(0,0,0,0.5); padding: 1rem; border-radius: 10px; border-left: 5px solid #ff00ff;">
+                            <strong style="color: #ff00ff;">🔥 Kit carrosserie Veilside</strong>
+                            <p style="color: #aaa; margin-top: 0.5rem;">Le kit le plus fou du game ! Style Fast & Furious garanti.</p>
+                        </div>
+                        <div style="background: rgba(0,0,0,0.5); padding: 1rem; border-radius: 10px; border-left: 5px solid #00ffff;">
+                            <strong style="color: #00ffff;">⚡ Turbo Garrett GTX3076R</strong>
+                            <p style="color: #aaa; margin-top: 0.5rem;">350 CV de pure puissance ! Ça envoie du lourd sur autoroute.</p>
+                        </div>
+                        <div style="background: rgba(0,0,0,0.5); padding: 1rem; border-radius: 10px; border-left: 5px solid #ffff00;">
+                            <strong style="color: #ffff00;">💡 Kit néons 12 couleurs</strong>
+                            <p style="color: #aaa; margin-top: 0.5rem;">RGB contrôlable depuis le smartphone. On voit arriver de loin !</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Badges -->
+                <div class="section-box">
+                    <h3 class="section-title">🏆 MES BADGES DE WARRIOR</h3>
+                    
+                    <div class="badges-grid">
+                        <div class="badge">
+                            <div class="badge-icon">🏁</div>
+                            <div class="badge-name">Pilote Pro</div>
+                        </div>
+                        <div class="badge">
+                            <div class="badge-icon">⚡</div>
+                            <div class="badge-name">Speed Demon</div>
+                        </div>
+                        <div class="badge">
+                            <div class="badge-icon">🔥</div>
+                            <div class="badge-name">Tuning King</div>
+                        </div>
+                        <div class="badge">
+                            <div class="badge-icon">💯</div>
+                            <div class="badge-name">50 Trajets</div>
+                        </div>
+                        <div class="badge">
+                            <div class="badge-icon">🎵</div>
+                            <div class="badge-name">DJ du Bitume</div>
+                        </div>
+                        <div class="badge">
+                            <div class="badge-icon">🤝</div>
+                            <div class="badge-name">Team Player</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

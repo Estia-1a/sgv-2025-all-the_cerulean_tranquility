@@ -178,17 +178,6 @@
             overflow: hidden;
         }
 
-        .profile-card::before {
-            content: '⚡';
-            position: absolute;
-            font-size: 15rem;
-            opacity: 0.05;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            animation: iconRotate 10s linear infinite;
-        }
-
         @keyframes iconRotate {
             from { transform: translate(-50%, -50%) rotate(0deg); }
             to { transform: translate(-50%, -50%) rotate(360deg); }
@@ -480,8 +469,7 @@
                         <div class="stat-value">2895 €</div>
                     </div>
                 </div>
-
-                <button class="edit-btn">✏️ Modifier le profil</button>
+                <a href="https://www.antai.gouv.fr/particulier/designation-ou-contestation/" target="_blank" class="back-btn">Contester mes PV</a>
             </div>
 
             <!-- Contenu droite -->
